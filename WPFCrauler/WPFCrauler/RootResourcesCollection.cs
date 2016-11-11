@@ -8,7 +8,7 @@ using System.Configuration;
 namespace WPFCrauler
 {
     [ConfigurationCollection(typeof(RootResourcesElement), AddItemName = "resource", CollectionType = ConfigurationElementCollectionType.BasicMap)]
-    internal class RootResourcesCollection : ConfigurationElementCollection
+    internal class RootResourcesCollection : ConfigurationElementCollection, IEnumerable<String>
     {
        internal RootResourcesElement this[int index]
         {
@@ -26,6 +26,13 @@ namespace WPFCrauler
         {
             return ((RootResourcesElement)element).href;
         }
-
+        public  new  IEnumerator<String> GetEnumerator() // Internal!!!&&&????
+        {
+            int count = base.Count;
+            for (int i = 0; i < count; i++)
+            {
+                yield return (base.BaseGet(i) as RootResourcesElement).href;
+            }
+        }
     }
 }
