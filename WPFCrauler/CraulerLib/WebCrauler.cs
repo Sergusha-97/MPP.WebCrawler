@@ -21,12 +21,17 @@ namespace CraulerLib
             }
             this.depth = depth;
         }
-        public async Task<CraulResult> PerformCraulingAsync(IEnumerable<string> rootUrls)
+        public Task<CraulResult> PerformCraulingAsync(IEnumerable<string> rootUrls)
         {
-            CraulResult result = new CraulResult("root");
-            AddChildsToResult(result, rootUrls);
-            await CraulRootAsync(result, 0);
-            return result;
+            return Task<CraulResult>.Run(async () =>
+            {
+                CraulResult result = new CraulResult("root");
+                AddChildsToResult(result, rootUrls);
+                await CraulRootAsync(result, 0);
+                return result;
+            }
+            );
+
         }
         private async Task CraulRootAsync(CraulResult result, int level)
         {
