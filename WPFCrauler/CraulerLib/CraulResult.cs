@@ -27,5 +27,20 @@ namespace CraulerLib
             Url = url;
             _childs = new List<CraulResult>();
         }
+        private void Print(List<CraulResult> craulResult,string indent, int level, ref string result)
+        {
+            foreach (CraulResult node in craulResult)
+            {
+                result = $"{result}{indent}{node.Url}\n";
+                Print(node._childs, indent + " ",level+1,ref result);
+            }
+            indent = indent.Substring(0, indent.Length - 1 < 0 ? 0 : indent.Length - 1);
+        }
+        public override String ToString()
+        {
+            string result = String.Empty;
+            Print(this.Childs, String.Empty, 0, ref result);
+            return result;
+        }
     }
 }

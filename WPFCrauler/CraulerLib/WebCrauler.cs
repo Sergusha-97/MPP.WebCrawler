@@ -21,6 +21,7 @@ namespace CraulerLib
             }
             this.depth = depth;
         }
+
         public Task<CraulResult> PerformCraulingAsync(IEnumerable<string> rootUrls)
         {
             return Task<CraulResult>.Run(async () =>
@@ -40,7 +41,6 @@ namespace CraulerLib
                 return;
             }
             WebClient webClient = new WebClient();
-            
             foreach (var rootUrl in result.Childs)
             {
                 string htmlPage = await webClient.DownloadStringTaskAsync(rootUrl.Url);
@@ -62,7 +62,11 @@ namespace CraulerLib
         {
             foreach ( string url in rootUrls)
             {
-                result.Childs.Add(new CraulResult(url));
+                if (url.StartsWith("http"))
+                {
+                    result.Childs.Add(new CraulResult(url));
+                }
+
             }
         }
     }

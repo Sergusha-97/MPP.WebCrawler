@@ -23,6 +23,7 @@ namespace WPFCrauler
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ApplicationViewModel(new Model());
         }
     }
 }

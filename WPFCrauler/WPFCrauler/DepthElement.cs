@@ -9,21 +9,14 @@ namespace WPFCrauler
 {
     internal class DepthElement : ConfigurationElement
     {
-        [ConfigurationProperty("Value")]
+        [ConfigurationProperty("value")]
         internal int Value
         {
             get
             {
                 int defaultResult = 6;
-                int result;
-                if (Int32.TryParse(base["Value"] as string,out result))
-                {
-                    return result > defaultResult ? defaultResult : result;
-                }
-                else
-                {
-                    return defaultResult;
-                }
+                int result = (int)base["value"];
+                return result > defaultResult ? defaultResult : result;
                 
             }
         }

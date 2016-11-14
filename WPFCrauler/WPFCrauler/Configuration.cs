@@ -11,16 +11,13 @@ namespace WPFCrauler
     {
         internal readonly IEnumerable<string> Resources;
         internal readonly int Depth;
-        /*
-         CustomApplicationConfigSection config = System.Configuration.ConfigurationManager.GetSection(CustomApplicationConfigSection.SECTION_NAME) as CustomApplicationConfigSection;
-         */
         internal Configuration(RootConfigSection RootConfig)
         {
             if (RootConfig == null)
             {
                 throw new ArgumentNullException();
             }
-            Depth = RootConfig.Depth.Value;
+            Depth = (int)RootConfig.Depth.Value;
             Resources = RootConfig.RootResources;
         }
     }

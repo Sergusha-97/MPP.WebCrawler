@@ -58,6 +58,9 @@
     </ApplicationDefinition>
     <Compile Include="Configuration.cs" />
     <Compile Include="DepthElement.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="RootConfigSection.cs" />
     <Compile Include="RootResourcesCollection.cs" />
     <Compile Include="RootResourcesElement.cs" />
@@ -101,6 +104,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CraulerLib\CraulerLib.csproj">
+      <Project>{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}</Project>
+      <Name>CraulerLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

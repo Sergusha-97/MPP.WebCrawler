@@ -9,6 +9,7 @@ namespace WPFCrauler
 {
     internal class RootConfigSection : ConfigurationSection
     {
+        internal const string SECTION_NAME = "root";
         [ConfigurationProperty("rootResources")]
         internal RootResourcesCollection RootResources
         {
@@ -17,12 +18,12 @@ namespace WPFCrauler
                 return base["rootResources"] as RootResourcesCollection;
             }
         }
-        [ConfigurationProperty("Depth")]
+        [ConfigurationProperty("depth")]
         internal DepthElement Depth
         {
             get
             {
-                return base["Depth"] as DepthElement;
+                return base["depth"] as DepthElement;
             }
         }
 

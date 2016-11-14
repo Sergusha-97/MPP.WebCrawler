@@ -27,7 +27,10 @@ namespace WPFCrauler
                 OnPropertyChanged("ResultUrlTree");
             }
         }
-
+        public Model()
+        {
+            ResultUrlTree = "dghd";
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string prop)
         {
