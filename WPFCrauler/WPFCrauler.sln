@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.25807.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCrauler", "WPFCrauler\WPFCrauler.csproj", "{A8743CF1-EBA1-4D22-A843-B6879A6142CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraulerLib", "CraulerLib\CraulerLib.csproj", "{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core", "..\..\html-parser\AngleSharp-master\src\AngleSharp\AngleSharp.Core.csproj", "{91F78C48-287E-41B5-9E49-44D6E1E31290}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A8743CF1-EBA1-4D22-A843-B6879A6142CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8743CF1-EBA1-4D22-A843-B6879A6142CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8743CF1-EBA1-4D22-A843-B6879A6142CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD0EC6A-9576-47DF-993D-B7F7077EFBE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F78C48-287E-41B5-9E49-44D6E1E31290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F78C48-287E-41B5-9E49-44D6E1E31290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F78C48-287E-41B5-9E49-44D6E1E31290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F78C48-287E-41B5-9E49-44D6E1E31290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

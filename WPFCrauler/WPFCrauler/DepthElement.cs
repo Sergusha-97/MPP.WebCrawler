@@ -14,8 +14,17 @@ namespace WPFCrauler
         {
             get
             {
-                int? result = base["Value"] as int?;
-                return result ?? 6;
+                int defaultResult = 6;
+                int result;
+                if (Int32.TryParse(base["Value"] as string,out result))
+                {
+                    return result > defaultResult ? defaultResult : result;
+                }
+                else
+                {
+                    return defaultResult;
+                }
+                
             }
         }
     }

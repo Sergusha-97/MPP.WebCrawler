@@ -16,9 +16,12 @@ namespace WPFCrauler
          */
         internal Configuration(RootConfigSection RootConfig)
         {
+            if (RootConfig == null)
+            {
+                throw new ArgumentNullException();
+            }
             Depth = RootConfig.Depth.Value;
             Resources = RootConfig.RootResources;
-
         }
     }
 }
