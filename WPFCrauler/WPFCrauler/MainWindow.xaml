@@ -12,7 +12,7 @@
             <RowDefinition Height="0.25*"></RowDefinition>
             <RowDefinition Height="0.25*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding ResultUrlTree, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="0" />
+        <TextBox Text="{Binding Model.ResultUrlTree, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Grid.Column="0" Grid.Row="0" />
         <Button Grid.Column="0" Grid.Row="1" Content="Run" Width="100" Height="40" Command="{Binding DoCommand}"/>
     </Grid>
 </Window>

@@ -15,67 +15,76 @@ namespace WPFCrauler
         private int depth;
         private IEnumerable<string> rootUrls;
         private bool canExecute = true;
+        private Exception resultException;
         public string ResultUrlTree
         {
             get
             {
                 return resultUrlsTree;
             }
-            set
+            private set
             {
                 resultUrlsTree = value;
                 OnPropertyChanged("ResultUrlTree");
             }
         }
-        public Model()
-        {
-            ResultUrlTree = "dghd";
-        }
+        public event EventHandler<ExceptionEventArgs> ExceptionOccured;
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop)
+        private void OnPropertyChanged(string prop)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(prop));
         }
-        public bool CanCrauling(object obj)
+        private void OnExceptionSet()
+        {
+            EventHandler<ExceptionEventArgs> handler = ExceptionOccured;
+            if (handler != null)
+            {
+                handler(this, new ExceptionEventArgs(resultException));
+            }
+
+        }
+        public bool  CanCrauling(object obj)
         {
             return canExecute;
         }
-        public async void DoCrauling(object obj)
-        {
-            canExecute = false;
-            RootConfigSection config = System.Configuration.
-                ConfigurationManager.GetSection(RootConfigSection.SECTION_NAME) as RootConfigSection;
-            depth = config.Depth.Value;
-            rootUrls = config.RootResources;
-            IWebCrauler webCrauler = new WebCrauler(depth);
-            CraulResult result = await webCrauler.PerformCraulingAsync(rootUrls);
-            ResultUrlTree = await Task<string>.Run(() => { return result.ToString(); });
-            canExecute = true;
-        }
-        private async Task DoCraulingAsync()
+        public async void DoCraulingAsync(object obj)
         {
             try
             {
-                
-                RootConfigSection config;
-                await Task.Run(() =>
+                canExecute = false;
+                try
                 {
-                    config = System.Configuration.
-                    ConfigurationManager.GetSection(RootConfigSection.SECTION_NAME) as RootConfigSection;
+                    RootConfigSection config = System.Configuration.
+                        ConfigurationManager.GetSection(RootConfigSection.SECTION_NAME) as RootConfigSection;
                     depth = config.Depth.Value;
                     rootUrls = config.RootResources;
-                });
-                IWebCrauler webCrauler = new WebCrauler(depth);
-                CraulResult result = await webCrauler.PerformCraulingAsync(rootUrls);
-                ResultUrlTree = await Task<string>.Run(() => { return  result.ToString(); });
+                }
+                catch
+                {
+                    throw new Exception("Error in app.config!");
+                }
+                try
+                {
+                    IWebCrauler webCrauler = new WebCrauler(depth);
+                    CraulResult result = await webCrauler.PerformCraulingAsync(rootUrls);
+                    ResultUrlTree = await Task<string>.Run(() => { return result.ToString(); });
+                }
+                catch
+                {
+                    throw new Exception("Error in WebCrawling");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-
+                resultException = ex;
+                OnExceptionSet();// Is private property will be good at this case?
             }
+            finally
+            {
+                canExecute = true;
+            }            
         }
-
-
     }
 }

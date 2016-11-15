@@ -8,8 +8,9 @@ namespace WPFCrauler
 {
     interface IModel
     {
-        string ResultUrlTree { get; set; }
-        void DoCrauling(object obj);
+        string ResultUrlTree { get;  }
+        void DoCraulingAsync(object obj);
         bool CanCrauling(object obj);
+        event EventHandler<ExceptionEventArgs> ExceptionOccured;
     }
 }

@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CraulerLib;
+using System.Windows;
 
 namespace WPFCrauler
 {
-    class ApplicationViewModel : INotifyPropertyChanged
+    class ApplicationViewModel 
     {
-        private IModel currentModel;
+        private  IModel currentModel;
         private RelayCommand doCommand;
+        private  void OnExceptionOccured(object obj, ExceptionEventArgs e)
+        {
+            MessageBox.Show(e.OccuredException.Message, "Error!",MessageBoxButton.OK, MessageBoxImage.Error);
+        }
         public RelayCommand DoCommand
         {
             get
@@ -20,25 +25,18 @@ namespace WPFCrauler
                 return doCommand;
             }
         }
-        public string ResultUrlTree
+        public IModel Model
         {
             get
             {
-                return currentModel.ResultUrlTree;
+                return currentModel;
             }
             set
             {
-                currentModel.ResultUrlTree = value;
-                OnPropertyChanged("ResultUrlTree");
+                currentModel = value;
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
         public ApplicationViewModel(IModel model)
         {
             if (model == null)
@@ -46,7 +44,8 @@ namespace WPFCrauler
                 throw new ArgumentNullException();
             }
             currentModel = model;
-            doCommand = new RelayCommand(currentModel.DoCrauling, currentModel.CanCrauling);
+            doCommand = new RelayCommand(currentModel.DoCraulingAsync, currentModel.CanCrauling);
+            currentModel.ExceptionOccured += OnExceptionOccured;
         }
     }
 }

@@ -31,10 +31,10 @@ namespace CraulerLib
         {
             foreach (CraulResult node in craulResult)
             {
-                result = $"{result}{indent}{node.Url}\n";
-                Print(node._childs, indent + " ",level+1,ref result);
+                string startsWith = level == 0 ? $"root{craulResult.IndexOf(node)+1} " : $"|> level{level} ";
+                result = $"{result}{indent}{startsWith}({node.Url})\n";
+                Print(node._childs, indent + "   ",level+1, ref result);
             }
-            indent = indent.Substring(0, indent.Length - 1 < 0 ? 0 : indent.Length - 1);
         }
         public override String ToString()
         {

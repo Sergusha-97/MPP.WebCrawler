@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Configuration.cs" />
     <Compile Include="DepthElement.cs" />
+    <Compile Include="ExceptionEventArgs.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="RelayCommand.cs" />
