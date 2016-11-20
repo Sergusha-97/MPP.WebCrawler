@@ -9,8 +9,7 @@ namespace WPFCrauler
 {
     public abstract class AbstractModel : INotifyPropertyChanged
     {
-        public abstract CraulerLib.CrawlResult ResultUrl { get; protected set; }
-        public abstract string ResultUrlTree { get; protected set; }
+        public abstract ObservableResult ObservableUrlTree { get; protected set; }
         public abstract void DoCraulingAsync(object obj);
         public abstract bool CanCrauling(object obj);
         public event EventHandler<ExceptionEventArgs> ExceptionOccured;

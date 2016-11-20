@@ -17,13 +17,12 @@ namespace WPFCrauler
         private ILogger logger;
         private int depth;
         private IEnumerable<string> rootUrls;
-        private bool canExecute = true;      
+        private bool canExecute = true;
+        private ObservableResult observableUrlTree; 
         public override bool  CanCrauling(object obj)
         {
             return canExecute;
         }
-        private string resultUrlsTree;
-        private CrawlResult resultUrl;
         public Model(ILogger logger)
         {
             if (logger == null)
@@ -32,28 +31,16 @@ namespace WPFCrauler
             }
             this.logger = logger;
         }
-        public override string ResultUrlTree
+        public override ObservableResult ObservableUrlTree
         {
             get
             {
-                return resultUrlsTree;
+                return observableUrlTree;
             }
             protected set
             {
-                resultUrlsTree = value;
-                OnPropertyChanged("ResultUrlTree");
-            }
-        }
-        public override CrawlResult ResultUrl
-        {
-            get
-            {
-                return resultUrl;
-            }
-            protected set
-            {
-                resultUrl = value;
-                OnPropertyChanged("ResultUrl");
+                observableUrlTree = value;
+                OnPropertyChanged("ObservableUrlTree");
             }
         }
         public override async void DoCraulingAsync(object obj)
@@ -76,8 +63,8 @@ namespace WPFCrauler
                 try
                 {
                     IWebCrawler webCrauler = new WebCrawler(depth, new Parser(),logger);
-                    ResultUrl = await webCrauler.PerformCraulingAsync(rootUrls);
-                    ResultUrlTree = ResultUrl.ToString();
+                    CrawlResult result = await webCrauler.PerformCraulingAsync(rootUrls);
+                    ObservableUrlTree = ObservableResult.CreateFromCrawlingResult(result);
                 }
                 catch
                 {
