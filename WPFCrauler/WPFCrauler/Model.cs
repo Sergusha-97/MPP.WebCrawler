@@ -13,12 +13,11 @@ namespace WPFCrauler
 {
     public class Model :  AbstractModel
     {
-
         private ILogger logger;
         private int depth;
         private IEnumerable<string> rootUrls;
         private bool canExecute = true;
-        private ObservableResult observableUrlTree; 
+        private CrawlResult urlTree;
         public override bool  CanCrauling(object obj)
         {
             return canExecute;
@@ -31,16 +30,16 @@ namespace WPFCrauler
             }
             this.logger = logger;
         }
-        public override ObservableResult ObservableUrlTree
+        public override CrawlResult UrlTree
         {
             get
             {
-                return observableUrlTree;
+                return urlTree;
             }
             protected set
             {
-                observableUrlTree = value;
-                OnPropertyChanged("ObservableUrlTree");
+                urlTree = value;
+                OnPropertyChanged("UrlTree");
             }
         }
         public override async void DoCraulingAsync(object obj)
@@ -63,8 +62,7 @@ namespace WPFCrauler
                 try
                 {
                     IWebCrawler webCrauler = new WebCrawler(depth, new Parser(),logger);
-                    CrawlResult result = await webCrauler.PerformCraulingAsync(rootUrls);
-                    ObservableUrlTree = ObservableResult.CreateFromCrawlingResult(result);
+                    UrlTree = await webCrauler.PerformCraulingAsync(rootUrls);
                 }
                 catch
                 {

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFCrauler"
+        xmlns:crawllib="clr-namespace:CraulerLib;assembly=CraulerLib"
         mc:Ignorable="d"
         Title="WebCrawler" Height="350" Width="525">
     <Grid>
@@ -13,11 +14,11 @@
             <RowDefinition Height="0.25*"></RowDefinition>
         </Grid.RowDefinitions>
         <TreeView Grid.Column="0" Grid.Row="0" 
-                  ItemsSource="{Binding Model.ObservableUrlTree.Items, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" >
+                  ItemsSource="{Binding Model.UrlTree.Childs, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" >
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:ObservableResult}"
-                                              ItemsSource="{Binding Items }">
-                    <TextBlock Text="{Binding Title}"/>
+                <HierarchicalDataTemplate DataType="{x:Type crawllib:CrawlResult}"
+                                              ItemsSource="{Binding Childs }">
+                    <TextBlock Text="{Binding Url}"/>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>

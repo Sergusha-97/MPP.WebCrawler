@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using CraulerLib;
 
 namespace WPFCrauler
 {
     public abstract class AbstractModel : INotifyPropertyChanged
     {
-        public abstract ObservableResult ObservableUrlTree { get; protected set; }
+        public abstract CrawlResult UrlTree { get; protected set; }
         public abstract void DoCraulingAsync(object obj);
         public abstract bool CanCrauling(object obj);
         public event EventHandler<ExceptionEventArgs> ExceptionOccured;
