@@ -12,7 +12,7 @@ namespace WPFCrauler
 {
     class ApplicationViewModel 
     {
-        private  IModel currentModel;
+        private  AbstractModel currentModel;
         private RelayCommand doCommand;
         private  void OnExceptionOccured(object obj, ExceptionEventArgs e)
         {
@@ -25,7 +25,7 @@ namespace WPFCrauler
                 return doCommand;
             }
         }
-        public IModel Model
+        public AbstractModel Model
         {
             get
             {
@@ -37,7 +37,7 @@ namespace WPFCrauler
             }
         }
 
-        public ApplicationViewModel(IModel model)
+        public ApplicationViewModel(AbstractModel model)
         {
             if (model == null)
             {

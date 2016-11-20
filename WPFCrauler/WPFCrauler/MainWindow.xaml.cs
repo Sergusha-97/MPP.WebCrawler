@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Serilog;
+using Serilog.Exceptions;
+using System.Configuration;
 
 namespace WPFCrauler
 {
@@ -23,7 +26,11 @@ namespace WPFCrauler
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ApplicationViewModel(new Model());
+            string path = ConfigurationManager.AppSettings["LogFolder"];
+            ILogger logger = new LoggerConfiguration()
+                .WriteTo.RollingFile(path+"Log-{Date}.txt")
+                .CreateLogger();
+            DataContext = new ApplicationViewModel(new Model(logger));
         }
     }
 }

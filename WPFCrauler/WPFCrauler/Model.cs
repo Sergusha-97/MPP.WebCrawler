@@ -6,50 +6,57 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CraulerLib;
+using Serilog;
+using Serilog.Exceptions;
 
 namespace WPFCrauler
 {
-    public class Model : INotifyPropertyChanged, IModel
+    public class Model :  AbstractModel
     {
-        private string resultUrlsTree;
+
+        private ILogger logger;
         private int depth;
         private IEnumerable<string> rootUrls;
-        private bool canExecute = true;
-        private Exception resultException;
-        public string ResultUrlTree
+        private bool canExecute = true;      
+        public override bool  CanCrauling(object obj)
+        {
+            return canExecute;
+        }
+        private string resultUrlsTree;
+        private CrawlResult resultUrl;
+        public Model(ILogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            this.logger = logger;
+        }
+        public override string ResultUrlTree
         {
             get
             {
                 return resultUrlsTree;
             }
-            private set
+            protected set
             {
                 resultUrlsTree = value;
                 OnPropertyChanged("ResultUrlTree");
             }
         }
-        public event EventHandler<ExceptionEventArgs> ExceptionOccured;
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string prop)
+        public override CrawlResult ResultUrl
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(prop));
-        }
-        private void OnExceptionSet()
-        {
-            EventHandler<ExceptionEventArgs> handler = ExceptionOccured;
-            if (handler != null)
+            get
             {
-                handler(this, new ExceptionEventArgs(resultException));
+                return resultUrl;
             }
-
+            protected set
+            {
+                resultUrl = value;
+                OnPropertyChanged("ResultUrl");
+            }
         }
-        public bool  CanCrauling(object obj)
-        {
-            return canExecute;
-        }
-        public async void DoCraulingAsync(object obj)
+        public override async void DoCraulingAsync(object obj)
         {
             try
             {
@@ -63,13 +70,14 @@ namespace WPFCrauler
                 }
                 catch
                 {
+                    
                     throw new Exception("Error in app.config!");
                 }
                 try
                 {
-                    IWebCrauler webCrauler = new WebCrauler(depth);
-                    CraulResult result = await webCrauler.PerformCraulingAsync(rootUrls);
-                    ResultUrlTree = await Task<string>.Run(() => { return result.ToString(); });
+                    IWebCrawler webCrauler = new WebCrawler(depth, new Parser(),logger);
+                    ResultUrl = await webCrauler.PerformCraulingAsync(rootUrls);
+                    ResultUrlTree = ResultUrl.ToString();
                 }
                 catch
                 {
@@ -78,6 +86,7 @@ namespace WPFCrauler
             }
             catch (Exception ex)
             {
+                logger.Error(ex.Message);
                 resultException = ex;
                 OnExceptionSet();// Is private property will be good at this case?
             }
